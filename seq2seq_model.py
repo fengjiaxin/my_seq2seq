@@ -6,7 +6,7 @@ import random
 
 import numpy as np
 import tensorflow as tf
-from legacy_seq2seq import data_utils
+import data_utils
 from seq2seq_attention import embedding_attention_seq2seq,model_with_buckets
 
 
@@ -77,10 +77,10 @@ class Seq2SeqModel(object):
         output_projection = None
         softmax_loss_function = None
         # sampled softmax only makes sense if we sample less than vocabulary size
-        if num_samples > 0 and num_samples < self.target_vocab_sizse:
-            w_t = tf.get_variable('proj_w',[self.target_vocab_sizse,size],dtype=dtype)
+        if num_samples > 0 and num_samples < self.target_vocab_size:
+            w_t = tf.get_variable('proj_w',[self.target_vocab_size,size],dtype=dtype)
             w = tf.transpose(w_t)
-            b = tf.get_variable('proj_b',[self.target_vocab_sizse],dtype=dtype)
+            b = tf.get_variable('proj_b',[self.target_vocab_size],dtype=dtype)
             output_projection=(w,b)
 
             # sampled loss 的提出原因
@@ -100,7 +100,7 @@ class Seq2SeqModel(object):
                         inputs=local_inputs,
                         num_sampled=num_samples,
                         num_classes=self.target_vocab_size),dtype)
-            softmax_loss_function = sampled_loss()
+            softmax_loss_function = sampled_loss
 
         # 接下来建立rnn基本的循环单元
         def single_cell():

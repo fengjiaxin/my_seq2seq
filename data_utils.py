@@ -59,8 +59,8 @@ def create_vocabulary(vocabulary_path,data_path,max_vocabulary_size,tokenizer=No
         if len(vocab_list) > max_vocabulary_size:
             vocab_list = vocab_list[:max_vocabulary_size]
         with open(vocabulary_path,'w') as w:
-            for w in vocab_list:
-                w.write(w + '\n')
+            for word in vocab_list:
+                w.write(word + '\n')
 
 def initialize_vocabulary(vocabulary_path):
     '''

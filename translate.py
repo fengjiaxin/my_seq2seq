@@ -2,13 +2,16 @@
     author:fengjiaxin
     desc:主要负责生成训练数据集，然后进行训练和decode
 '''
+import warnings
+warnings.filterwarnings('ignore')
+
 from hparams import Hparams
 import sys
 import os
 import numpy as np
 import tensorflow as tf
 import data_utils
-import seq2seq_model
+from seq2seq_model import Seq2SeqModel
 import time
 import math
 
@@ -21,7 +24,7 @@ import math
 _buckets = [(5,10),(10,15),(20,25),(40,50)]
 
 
-def read_data(source_ids_path,targt_ids_path,max_size):
+def read_data(source_ids_path,targt_ids_path,max_size=None):
     '''
     读取文件，将数据放到buckets
     :return:
@@ -29,7 +32,7 @@ def read_data(source_ids_path,targt_ids_path,max_size):
     '''
     data_set = [[] for _ in range(len(_buckets))]
     with open(source_ids_path,'r') as source_file,open(targt_ids_path,'r') as target_file:
-        source,target = source_file.readable(),target_file.readline()
+        source,target = source_file.readline(),target_file.readline()
         counter = 0
         while source and target and (not max_size or counter < max_size):
             counter += 1
@@ -50,9 +53,9 @@ def read_data(source_ids_path,targt_ids_path,max_size):
 
 
 def create_model(session,forward_only,hp):
-    model = seq2seq_model(
-            hp.source_vocab_size,
-            hp.target_vocab_size,
+    model = Seq2SeqModel(
+            hp.en_vocab_size,
+            hp.fr_vocab_size,
             _buckets,
             hp.size,
             hp.num_layers,
@@ -60,10 +63,10 @@ def create_model(session,forward_only,hp):
             hp.batch_size,
             hp.learning_rate,
             hp.learning_rate_decay_factor,
-            use_lstm=True,
+            use_lstm=False,
             forward_only=forward_only)
-    ckpt = tf.train.get_checkpoint_state(hp.train_checkpoint)
-    if ckpt and os.path.exists(ckpt.model_checkpoint_path):
+    ckpt = tf.train.get_checkpoint_state(hp.train_checkpoint_dir)
+    if ckpt and tf.gfile.Exists(ckpt.model_checkpoint_path):
         print('reading model parameters form %s'%ckpt.model_checkpoint_path)
         model.saver.restore(session,ckpt.model_checkpoint_path)
     else:
@@ -95,15 +98,17 @@ def process_file(hp):
 
 
 def train(hp):
-    train_data = read_data(hp.train_en_ids,hp.train_fr_ids,hp.max_train_data_size)
-    test_data = read_data(hp.test_en_ids,hp.test_fr_ids)
-
+  
     with tf.Session() as sess:
         # create model
         print('create %d layers of %d units.'%(hp.num_layers,hp.size))
-        model = create_model(sess,False)
+        model = create_model(sess,False,hp)
+        print('model create success')
 
         # 确定每个buckets的数据train的样本数
+        train_data = read_data(hp.train_en_ids,hp.train_fr_ids,hp.max_train_data_size)
+        test_data = read_data(hp.test_en_ids,hp.test_fr_ids)
+        print('generate data success')
         train_buckets_sizes = [len(train_data[b]) for b in range(len(_buckets))]
         # 已知每个桶的样本数量，可以获取buckets的所有样本数
         train_total_size = float(sum(train_buckets_sizes))
@@ -116,6 +121,7 @@ def train(hp):
         step_time,loss = 0.0,0.0
         current_step = 0
         previous_loss = []
+        print('begin train')
         for step_index in range(hp.steps):
             random_number = np.random.random_sample()
             bucket_id = min([i for i in range(len(train_buckets_scale))
@@ -156,8 +162,8 @@ def train(hp):
 
                     encoder_inputs,decoder_inputs,target_weights = model.get_batch(
                         test_data,bucket_id)
-                    _,eval_loss,_ = model.get_batch(
-                        encoder_inputs,decoder_inputs,target_weights,bucket_id,True)
+                    _,eval_loss,_ = model.step(
+                        sess,encoder_inputs,decoder_inputs,target_weights,bucket_id,True)
                     eval_perplexity = math.exp(eval_loss) if eval_loss < 300 else float('inf')
                     print(' eval:bucket %d perplexity %.2f'%(bucket_id,eval_loss))
                 sys.stdout.flush()

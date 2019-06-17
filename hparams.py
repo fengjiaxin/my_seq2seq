@@ -24,8 +24,8 @@ class Hparams:
                              help="french evaluation ids data")
 
     # vocabulary_size
-    parser.add_argument('--en_vocab_size', default=32000, type=int)
-    parser.add_argument('--fr_vocab_size', default=32000, type=int)
+    parser.add_argument('--en_vocab_size', default=3200, type=int)
+    parser.add_argument('--fr_vocab_size', default=3200, type=int)
 
     # vocabulary files
     parser.add_argument('--vocab_en', default='./data/vocab/vocab.en',
@@ -43,12 +43,12 @@ class Hparams:
     parser.add_argument('--size', default=30, type=int,help='Size of each model layer.')
     parser.add_argument('--num_layers', default=2, type=int, help='Number of layers in the model.')
     parser.add_argument('--max_train_data_size', default=10000, type=int,help='Limit on the size of training data (0: no limit).')
-    parser.add_argument('--steps_per_checkpoint', default=200, type=int,help='How many training steps to do per checkpoint.')
-    parser.add_argument('--steps', default=20, type=int,
+    parser.add_argument('--steps_per_checkpoint', default=20, type=int,help='How many training steps to do per checkpoint.')
+    parser.add_argument('--steps', default=41, type=int,
                         help='train steps')
 
     # training chekcpoint file
-    parser.add_argument('--train_checkpoint_dir', default='./train_checkpoint',
+    parser.add_argument('--train_checkpoint_dir', default='train_checkpoint',
                              help="train checkpoint dir")
 
     # train/inference

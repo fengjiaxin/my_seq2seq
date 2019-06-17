@@ -177,7 +177,7 @@ def model_with_buckets(encoder_inputs,
         for i,bucket in enumerate(buckets):
             with variable_scope.variable_scope(
                 variable_scope.get_variable_scope(),reuse=True if i > 0 else None):
-                bucket_outputs,_ = seq2seq(encoder_inputs[:buckets[0]],decoder_inputs[:buckets[1]])
+                bucket_outputs,_ = seq2seq(encoder_inputs[:bucket[0]],decoder_inputs[:bucket[1]])
                 outputs.append(bucket_outputs)
                 if per_example_loss:
                     losses.append(sequence_loss_by_example(
@@ -254,7 +254,7 @@ def embedding_attention_seq2seq(encoder_inputs,
             encoder_cell,encoder_inputs,dtype=dtype)
         # encoder_outputs是encoder阶段的隐藏层向量，shape 为[timesteps,batch_size,output_size],需要转换成[batch_size,timesteps,output_size]
         # 1.首先建立列表，长度为T,元素是(batch_size,1,output_size)
-        top_states = [array_ops.reshape(e,-1,1,cell.output_size) for e in encoder_outputs]
+        top_states = [array_ops.reshape(e,[-1,1,cell.output_size]) for e in encoder_outputs]
         # 2.将长度为T，元素为(batch_size,1,output_size)合并成[batch_size,T,output_size]的tensor
         attention_states = array_ops.concat(top_states,1)
 
@@ -514,7 +514,7 @@ def attention_decoder(decoder_inputs,
             for index in range(num_heads):
                 with variable_scope.variable_scope("Attention_%d"%index):
                     # 首先计算W2 * si,用y表示 其中W1 * h shape [batch_size,attn_length,1,attn_vec_size]
-                    y = Linear(query,attn_vec_size,True)
+                    y = Linear(query,attn_vec_size,True)(query)
                     # 将y reshape 成 4维张量，方便和W1 * h 相加
                     y = array_ops.reshape(y,[-1,1,1,attn_vec_size])
                     y = math_ops.cast(y,dtype)
@@ -525,7 +525,7 @@ def attention_decoder(decoder_inputs,
 
                     # 接下来计算context vector d
                     a = math_ops.cast(a,dtype)
-                    d = math_ops.reduce_sum(array_ops.reshape(a,[-1,attn_length,1,1] * hidden,[1,2]))
+                    d = math_ops.reduce_sum(array_ops.reshape(a,[-1,attn_length,1,1]) * hidden,[1,2])
                     ds.append(array_ops.reshape(d,[-1,attn_size]))
             return ds
 
@@ -575,7 +575,7 @@ def attention_decoder(decoder_inputs,
             with variable_scope.variable_scope('AttnOutputProjection'):
                 cell_output = math_ops.cast(cell_output,dtype)
                 inputs = [cell_output] + attns
-                output = Linear(inputs,output_size)
+                output = Linear(inputs,output_size,True)(inputs)
             if loop_function is not None:
                 prev = output
             outputs.append(output)

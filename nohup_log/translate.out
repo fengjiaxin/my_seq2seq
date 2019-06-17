@@ -1,0 +1,76 @@
+2019-06-17 14:32:45.940268: I tensorflow/core/platform/cpu_feature_guard.cc:141] Your CPU supports instructions that this TensorFlow binary was not compiled to use: SSE4.1 SSE4.2 AVX AVX2 AVX512F FMA
+2019-06-17 14:32:45.948470: I tensorflow/core/platform/profile_utils/cpu_utils.cc:94] CPU Frequency: 2499995000 Hz
+2019-06-17 14:32:45.949089: I tensorflow/compiler/xla/service/service.cc:150] XLA service 0x55d6a5ff8b60 executing computations on platform Host. Devices:
+2019-06-17 14:32:45.949131: I tensorflow/compiler/xla/service/service.cc:158]   StreamExecutor device (0): <undefined>, <undefined>
+OMP: Info #212: KMP_AFFINITY: decoding x2APIC ids.
+OMP: Info #213: KMP_AFFINITY: cpuid leaf 11 not supported - decoding legacy APIC ids.
+OMP: Info #149: KMP_AFFINITY: Affinity capable, using global cpuid info
+OMP: Info #154: KMP_AFFINITY: Initial OS proc set respected: 0-7
+OMP: Info #156: KMP_AFFINITY: 8 available OS procs
+OMP: Info #157: KMP_AFFINITY: Uniform topology
+OMP: Info #159: KMP_AFFINITY: 1 packages x 4 cores/pkg x 2 threads/core (4 total cores)
+OMP: Info #214: KMP_AFFINITY: OS proc to physical thread map:
+OMP: Info #171: KMP_AFFINITY: OS proc 0 maps to package 0 core 0 thread 0 
+OMP: Info #171: KMP_AFFINITY: OS proc 1 maps to package 0 core 0 thread 1 
+OMP: Info #171: KMP_AFFINITY: OS proc 2 maps to package 0 core 1 thread 0 
+OMP: Info #171: KMP_AFFINITY: OS proc 3 maps to package 0 core 1 thread 1 
+OMP: Info #171: KMP_AFFINITY: OS proc 4 maps to package 0 core 2 thread 0 
+OMP: Info #171: KMP_AFFINITY: OS proc 5 maps to package 0 core 2 thread 1 
+OMP: Info #171: KMP_AFFINITY: OS proc 6 maps to package 0 core 3 thread 0 
+OMP: Info #171: KMP_AFFINITY: OS proc 7 maps to package 0 core 3 thread 1 
+OMP: Info #250: KMP_AFFINITY: pid 25510 tid 25510 thread 0 bound to OS proc set 0
+2019-06-17 14:32:45.949999: I tensorflow/core/common_runtime/process_util.cc:71] Creating new thread pool with default inter op setting: 2. Tune using inter_op_parallelism_threads for best performance.
+WARNING:tensorflow:From /home/fengjiaxin/fengjiaxin/anaconda3/envs/my-rdkit-env/lib/python3.6/site-packages/tensorflow/python/framework/op_def_library.py:263: colocate_with (from tensorflow.python.framework.ops) is deprecated and will be removed in a future version.
+Instructions for updating:
+Colocations handled automatically by placer.
+WARNING:tensorflow:From /data1/fengjiaxin/github/my_seq2seq/seq2seq_model.py:110: GRUCell.__init__ (from tensorflow.python.ops.rnn_cell_impl) is deprecated and will be removed in a future version.
+Instructions for updating:
+This class is equivalent as tf.keras.layers.GRUCell, and will be replaced by that in Tensorflow 2.0.
+WARNING:tensorflow:From /data1/fengjiaxin/github/my_seq2seq/seq2seq_model.py:114: MultiRNNCell.__init__ (from tensorflow.python.ops.rnn_cell_impl) is deprecated and will be removed in a future version.
+Instructions for updating:
+This class is equivalent as tf.keras.layers.StackedRNNCells, and will be replaced by that in Tensorflow 2.0.
+WARNING:tensorflow:From /data1/fengjiaxin/github/my_seq2seq/seq2seq_attention.py:254: static_rnn (from tensorflow.python.ops.rnn) is deprecated and will be removed in a future version.
+Instructions for updating:
+Please use `keras.layers.RNN(cell, unroll=True)`, which is equivalent to this API
+WARNING:tensorflow:From /home/fengjiaxin/fengjiaxin/anaconda3/envs/my-rdkit-env/lib/python3.6/site-packages/tensorflow/python/ops/nn_impl.py:1444: sparse_to_dense (from tensorflow.python.ops.sparse_ops) is deprecated and will be removed in a future version.
+Instructions for updating:
+Create a `tf.sparse.SparseTensor` and use `tf.sparse.to_dense` instead.
+WARNING:tensorflow:From /home/fengjiaxin/fengjiaxin/anaconda3/envs/my-rdkit-env/lib/python3.6/site-packages/tensorflow/python/ops/array_grad.py:425: to_int32 (from tensorflow.python.ops.math_ops) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use tf.cast instead.
+WARNING:tensorflow:From /home/fengjiaxin/fengjiaxin/anaconda3/envs/my-rdkit-env/lib/python3.6/site-packages/tensorflow/python/util/tf_should_use.py:193: initialize_all_variables (from tensorflow.python.ops.variables) is deprecated and will be removed after 2017-03-02.
+Instructions for updating:
+Use `tf.global_variables_initializer` instead.
+OMP: Info #250: KMP_AFFINITY: pid 25510 tid 25539 thread 1 bound to OS proc set 2
+OMP: Info #250: KMP_AFFINITY: pid 25510 tid 25540 thread 2 bound to OS proc set 4
+OMP: Info #250: KMP_AFFINITY: pid 25510 tid 25664 thread 3 bound to OS proc set 6
+OMP: Info #250: KMP_AFFINITY: pid 25510 tid 25665 thread 4 bound to OS proc set 1
+OMP: Info #250: KMP_AFFINITY: pid 25510 tid 25666 thread 5 bound to OS proc set 3
+OMP: Info #250: KMP_AFFINITY: pid 25510 tid 25667 thread 6 bound to OS proc set 5
+OMP: Info #250: KMP_AFFINITY: pid 25510 tid 25668 thread 7 bound to OS proc set 7
+OMP: Info #250: KMP_AFFINITY: pid 25510 tid 25670 thread 9 bound to OS proc set 2
+OMP: Info #250: KMP_AFFINITY: pid 25510 tid 25669 thread 8 bound to OS proc set 0
+OMP: Info #250: KMP_AFFINITY: pid 25510 tid 25671 thread 10 bound to OS proc set 4
+OMP: Info #250: KMP_AFFINITY: pid 25510 tid 25672 thread 11 bound to OS proc set 6
+OMP: Info #250: KMP_AFFINITY: pid 25510 tid 25673 thread 12 bound to OS proc set 1
+OMP: Info #250: KMP_AFFINITY: pid 25510 tid 25674 thread 13 bound to OS proc set 3
+OMP: Info #250: KMP_AFFINITY: pid 25510 tid 25675 thread 14 bound to OS proc set 5
+OMP: Info #250: KMP_AFFINITY: pid 25510 tid 25676 thread 15 bound to OS proc set 7
+OMP: Info #250: KMP_AFFINITY: pid 25510 tid 25677 thread 16 bound to OS proc set 0
+process file
+train
+create 2 layers of 30 units.
+created model with fresh parameters
+model create success
+generate data success
+begin train
+global step 20 learning rate 0.5000 step_time 7.53 perplexity 1362.07
+ eval:bucket 0 perplexity 6.60
+ eval:bucket 1 perplexity 6.59
+ eval:bucket 2 perplexity 6.61
+ eval:bucket 3 perplexity 7.10
+global step 40 learning rate 0.5000 step_time 0.27 perplexity 937.10
+ eval:bucket 0 perplexity 6.94
+ eval:bucket 1 perplexity 6.85
+ eval:bucket 2 perplexity 6.81
+ eval:bucket 3 perplexity 6.75
